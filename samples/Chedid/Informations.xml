@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <auteur>
+    <nom>Chedid</nom>
+    <prenom/>
+    <naissance/>
+    <deces/>
+  </auteur>
+  <oeuvre>
+    <titre>LaRobeNoire</titre>
+    <edition/>
+    <publication/>
+  </oeuvre>
+  <arbre>
+    <version id="manuscrit">
+      <etat id="chedidcor.txt"/>
+      <etat id="chedidtapuscrit.txt"/>
+    </version>
+  </arbre>
+  <informations fsource="chedidtapuscrit.txt" ratio="48" diacriSensitive="0" vcible="manuscrit" sepSensitive="0" caseSensitive="0" vsource="manuscrit" lg_pivot="4" seuil="95" fcible="chedidcor.txt" car_mot="0">
+    <transformations>
+      <lgsource lg="1122"/>
+      <insertions>
+        <ins d="1152" f="1159"/>
+        <ins d="1222" f="1243"/>
+        <ins d="1255" f="1326"/>
+        <ins d="1331" f="1479"/>
+        <ins d="1538" f="1543"/>
+        <ins d="1550" f="1709"/>
+        <ins d="1740" f="1750"/>
+        <ins d="1850" f="1853"/>
+        <ins d="1908" f="1933"/>
+        <ins d="2067" f="2075"/>
+        <ins d="2092" f="2095"/>
+        <ins d="2167" f="2173"/>
+        <ins d="2182" f="2203"/>
+        <ins d="2207" f="2227"/>
+        <ins d="2320" f="2325"/>
+        <ins d="2371" f="2391"/>
+        <ins d="2402" f="2437"/>
+        <ins d="2504" f="2542"/>
+      </insertions>
+      <suppressions>
+        <sup d="62" f="74"/>
+        <sup d="104" f="112"/>
+        <sup d="130" f="139"/>
+        <sup d="144" f="178"/>
+        <sup d="186" f="209"/>
+        <sup d="214" f="244"/>
+        <sup d="298" f="320"/>
+        <sup d="324" f="334"/>
+        <sup d="415" f="425"/>
+        <sup d="606" f="612"/>
+        <sup d="673" f="681"/>
+        <sup d="690" f="737"/>
+        <sup d="748" f="766"/>
+        <sup d="788" f="790"/>
+      </suppressions>
+      <deplacements>
+        <bd d="1533" f="1538"/>
+        <bd d="0" f="18"/>
+        <bd d="178" f="186"/>
+        <bd d="209" f="214"/>
+        <bd d="320" f="324"/>
+        <bd d="408" f="415"/>
+        <bd d="425" f="449"/>
+        <bd d="602" f="606"/>
+        <bd d="681" f="690"/>
+        <bd d="737" f="748"/>
+        <bd d="897" f="908"/>
+        <bd d="1148" f="1152"/>
+        <bd d="1200" f="1217"/>
+        <bd d="1543" f="1550"/>
+        <bd d="1733" f="1740"/>
+        <bd d="1809" f="1834"/>
+        <bd d="2156" f="2167"/>
+        <bd d="2173" f="2182"/>
+        <bd d="2203" f="2207"/>
+        <bd d="2391" f="2402"/>
+      </deplacements>
+      <remplacements>
+        <remp d="78" f="91"/>
+        <remp d="334" f="343"/>
+        <remp d="347" f="370"/>
+        <remp d="387" f="408"/>
+        <remp d="477" f="479"/>
+        <remp d="826" f="881"/>
+        <remp d="890" f="897"/>
+        <remp d="923" f="931"/>
+        <remp d="1043" f="1049"/>
+        <remp d="1180" f="1187"/>
+        <remp d="1533" f="1538"/>
+        <remp d="1713" f="1733"/>
+        <remp d="1766" f="1777"/>
+        <remp d="1805" f="1809"/>
+        <remp d="2114" f="2156"/>
+        <remp d="2236" f="2249"/>
+        <remp d="2264" f="2280"/>
+        <remp d="2463" f="2466"/>
+      </remplacements>
+      <blocscommuns>
+        <bc d="18" f="45"/>
+        <bc d="45" f="62"/>
+        <bc d="74" f="78"/>
+        <bc d="91" f="104"/>
+        <bc d="112" f="117"/>
+        <bc d="117" f="130"/>
+        <bc d="139" f="144"/>
+        <bc d="244" f="298"/>
+        <bc d="343" f="347"/>
+        <bc d="370" f="387"/>
+        <bc d="449" f="477"/>
+        <bc d="479" f="495"/>
+        <bc d="495" f="550"/>
+        <bc d="550" f="602"/>
+        <bc d="612" f="673"/>
+        <bc d="766" f="788"/>
+        <bc d="790" f="807"/>
+        <bc d="807" f="826"/>
+        <bc d="881" f="890"/>
+        <bc d="908" f="923"/>
+        <bc d="931" f="969"/>
+        <bc d="969" f="1017"/>
+        <bc d="1017" f="1043"/>
+        <bc d="1049" f="1087"/>
+        <bc d="1087" f="1122"/>
+        <bc d="1122" f="1148"/>
+        <bc d="1159" f="1176"/>
+        <bc d="1176" f="1180"/>
+        <bc d="1187" f="1200"/>
+        <bc d="1217" f="1222"/>
+        <bc d="1243" f="1255"/>
+        <bc d="1326" f="1331"/>
+        <bc d="1479" f="1533"/>
+        <bc d="1709" f="1713"/>
+        <bc d="1750" f="1766"/>
+        <bc d="1777" f="1805"/>
+        <bc d="1834" f="1850"/>
+        <bc d="1853" f="1908"/>
+        <bc d="1933" f="1984"/>
+        <bc d="1984" f="2045"/>
+        <bc d="2045" f="2067"/>
+        <bc d="2075" f="2092"/>
+        <bc d="2095" f="2114"/>
+        <bc d="2227" f="2236"/>
+        <bc d="2249" f="2264"/>
+        <bc d="2280" f="2320"/>
+        <bc d="2325" f="2371"/>
+        <bc d="2437" f="2463"/>
+        <bc d="2466" f="2504"/>
+        <bc d="2542" f="2576"/>
+      </blocscommuns>
+      <blocsNonDefinis/>
+      <blocsdeplaces>
+        <bd b1f="18" b2f="1217" b1d="0" b2d="1200"/>
+        <bd b1f="186" b2f="1550" b1d="178" b2d="1543"/>
+        <bd b1f="214" b2f="1538" b1d="209" b2d="1533"/>
+        <bd b1f="324" b2f="1152" b1d="320" b2d="1148"/>
+        <bd b1f="415" b2f="1740" b1d="408" b2d="1733"/>
+        <bd b1f="449" b2f="1834" b1d="425" b2d="1809"/>
+        <bd b1f="606" b2f="2207" b1d="602" b2d="2203"/>
+        <bd b1f="690" b2f="2182" b1d="681" b2d="2173"/>
+        <bd b1f="748" b2f="2167" b1d="737" b2d="2156"/>
+        <bd b1f="908" b2f="2402" b1d="897" b2d="2391"/>
+      </blocsdeplaces>
+    </transformations>
+  </informations>
+</root>
