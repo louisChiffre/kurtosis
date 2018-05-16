@@ -11,12 +11,15 @@ def node2block(node, begin_attr='d', end_attr='f'):
             b=int(dic[end_attr]))
     
     
-def load(xml_filename):
+def gen_replacements(xml_filename):
     def mk_path(filename):
         return join(dirname(xml_filename), filename)
 
     def read_txt(filename):
-        with open(filename,'r', encoding='latin9') as o:
+        encoding = 'latin1'
+        # if '01LaBelle' in filename:
+        #     encoding = 'utf16'
+        with open(filename,'r', encoding=encoding) as o:
             txt = o.read()
         return txt
 
@@ -27,9 +30,10 @@ def load(xml_filename):
     txt_1 = read_txt(mk_path(informations['fsource']))
     txt_2 = read_txt(mk_path(informations['fcible']))
     txt = txt_1 + txt_2
+    pivot = int(tree.find('./informations/transformations/lgsource').attrib['lg'])
 
-    def gen_blocks():
-        for replacement in transformations.findall('./remplacements/remp')[0:10]:
+    def gen_blocks(block_type='./remplacements/remp'):
+        for replacement in transformations.findall(block_type):
             block = node2block(replacement)
             yield block
 
@@ -39,17 +43,14 @@ def load(xml_filename):
     blocks = list(gen_blocks())
     assert len(blocks)%2 == 0
     N = len(blocks)//2
-    for ba, bb in zip(blocks[:N], blocks[N:]):
-        txt_a = get_text(ba)
-        txt_b = get_text(bb)
-        print(80*'-')
-        print(repr(txt_a))
-        print(repr(txt_b))
+    Replacement = namedtuple('Replacement', 'source dest')
+    for ba, bb in list(zip(blocks[:N], blocks[N:])):
+        yield Replacement(get_text(ba), get_text(bb))
         
-# to format the xml for readability
 # xmllint --format samples/LaBelle/Informations.xml
-
-
-# xml_filename = 'samples/Chedid/Informations.xml'
 xml_filename = 'samples/LaBelle/Informations.xml'
-load(xml_filename)
+for rep in gen_replacements(xml_filename):
+    print(80*'-')
+    print('{rep.source}'.format(**locals()))
+    print('{rep.dest}'.format(**locals()))
+
