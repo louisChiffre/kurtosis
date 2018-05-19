@@ -93,7 +93,7 @@ class Shell(cmd.Cmd):
         cmd.Cmd.__init__(self)
         assert exists(xml_filename), 'File {xml_filename} does not exist'.format(**locals())
         tree, replacements =  get_replacements(xml_filename, encoding)
-        self.replacements = replacements[0:3]
+        self.replacements = replacements
         self.xml_filename = xml_filename
         self.tree = tree
         self.cursor = 0
