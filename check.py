@@ -1,11 +1,18 @@
+import cmd
 import io
 import argparse
 from collections import namedtuple
 import xml.etree.ElementTree as ET
 from os.path import join, dirname,exists
 from ansi import Fore, Style
-
-
+                         
+logo ='''                              
+  /\/\   ___  __| (_) |_  ___  /__   \__ _  __ _  __ _  ___ _ __ 
+ /    \ / _ \/ _` | | __|/ _ \   / /\/ _` |/ _` |/ _` |/ _ \ '__|
+/ /\/\ \  __/ (_| | | |_|  __/  / / | (_| | (_| | (_| |  __/ |   
+\/    \/\___|\__,_|_|\__|\___|  \/   \__,_|\__, |\__, |\___|_|   
+                                           |___/ |___/        
+'''
 Block = namedtuple('Block', 'a b node')
 
 def node2block(node, begin_attr='d', end_attr='f'):
@@ -62,39 +69,77 @@ def get_replacements(xml_filename, encoding):
     return tree, list(gen_replacements())
         
 
-def process(xml_filename, encoding):
-    assert exists(xml_filename), 'File {xml_filename} does not exist'.format(**locals())
-    print(repr(Fore.RED))
-    print(80*'*')
-    tree, replacements = get_replacements(xml_filename, encoding)
-    response2tag = {'y': 'y', 'n': 'n'} 
+class Shell(cmd.Cmd):
+    intro = logo + '\nType "start" to start tagging'
+    prompt = '$ '
 
-    def query_user_input(rep, i, N):
+    def show_rep(self):
+        rep = self.current_rep()
         left='{x.left}{code}{x.center}{reset}{x.right}'.format(x=rep.source, code=Fore.RED, reset=Style.RESET_ALL)
         right='{x.left}{code}{x.center}{reset}{x.right}'.format(x=rep.dest, code=Fore.GREEN, reset=Style.RESET_ALL)
-        print('source [{rep.source.block.a}]'.format(**locals()).center(80,'-'))
+        print('source ({rep.source.block.a},{rep.dest.block.a})'.format(**locals()).center(80,'-'))
         print(left)
-        print('cible [{rep.dest.block.a}]'.format(**locals()).center(80,'-'))
+        print('cible'.format(**locals()).center(80,'-'))
         print(right)
         print(80*'*')
-        result = None
-        while not result in response2tag:
-            result = raw_input('{i}/{N} Change significant? [y/n]'.format(**locals()))
-        return response2tag[result]
+        current_tag = rep.source.block.node.get('tag')
+        print('enter y to tag change as significant else type n. (current tag is [{current_tag})]'.format(**locals()))
+        self.wait_for_answer =True
 
-    def annotate():
-        for i, rep in enumerate(replacements[0:3]): 
-            tag = query_user_input(rep, i+1, len(replacements))
-            rep.source.block.node.set('tag', tag)
-            rep.dest.block.node.set('tag', tag)
+    def current_rep(self):
+        return self.replacements[self.cursor]
 
-    def get_annotated_filename(xml_filename): 
-        return xml_filename.replace('.xml', '.annotated.xml')
+    def __init__(self, xml_filename, encoding):
+        cmd.Cmd.__init__(self)
+        assert exists(xml_filename), 'File {xml_filename} does not exist'.format(**locals())
+        tree, replacements =  get_replacements(xml_filename, encoding)
+        self.replacements = replacements[0:3]
+        self.xml_filename = xml_filename
+        self.tree = tree
+        self.cursor = 0
+        self.wait_for_answer = False
 
-    annotate()
-    annotated_filename = get_annotated_filename(xml_filename) 
-    print "Writing file to {annotated_filename}".format(**locals())
-    tree.write(annotated_filename)
+    def increment_cursor(self):
+        self.cursor+=1
+        if self.cursor >= len(self.replacements):
+            self.cursor = self.cursor % len(self.replacements)
+        
+    def decrement_cursor(self):
+        self.cursor-=1
+        if self.cursor < 0:
+            self.cursor = len(self.replacements) + self.cursor
+        
+
+    def update_node(self, tag):
+        self.current_rep().source.block.node.set('tag', tag)
+        self.current_rep().dest.block.node.set('tag', tag)
+        self.increment_cursor()
+        self.show_rep()
+
+    def do_start(self, arg):
+        '''start analysis'''
+        self.show_rep()
+
+    def do_y(self, arg):
+        '''tag change as significant'''
+        if self.wait_for_answer:
+            self.update_node('y')
+
+    def do_n(self, arg):
+        '''tag change as _not_ significant'''
+        if self.wait_for_answer:
+            self.update_node('n')
+
+    def do_save(self, arg):
+        '''save file'''
+        filename = arg if arg else self.xml_filename
+        print "Writing annotated file to {filename}".format(**locals())
+        self.tree.write(filename)
+
+    def do_undo(self, arg):
+        '''re-evaluate previousgg'''
+        self.decrement_cursor()
+        self.show_rep()
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
@@ -103,4 +148,5 @@ if __name__ == "__main__":
     ap.add_argument("-e", "--encoding", required=False, default='latin1',
             help="text file encoding")
     args = vars(ap.parse_args())
-    process(xml_filename=args['filename'], encoding=args['encoding'])
+    shell = Shell(xml_filename=args['filename'], encoding=args['encoding'])
+    shell.cmdloop()
