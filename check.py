@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cmd
 import io
 import argparse
@@ -51,7 +52,7 @@ def get_replacements(xml_filename, encoding):
 
     Fragment = namedtuple('Fragment', 'left center right block')
     def p(x):
-        return x.encode(encoding)
+        return x
     def get_text(block, window=32):
         return Fragment(
             left = p(txt[(block.a-window):block.a]),
@@ -75,8 +76,8 @@ class Shell(cmd.Cmd):
 
     def show_rep(self):
         rep = self.current_rep()
-        left='{x.left}{code}{x.center}{reset}{x.right}'.format(x=rep.source, code=Fore.RED, reset=Style.RESET_ALL)
-        right='{x.left}{code}{x.center}{reset}{x.right}'.format(x=rep.dest, code=Fore.GREEN, reset=Style.RESET_ALL)
+        left=u'{x.left}{code}{x.center}{reset}{x.right}'.format(x=rep.source, code=Fore.RED, reset=Style.RESET_ALL)
+        right=u'{x.left}{code}{x.center}{reset}{x.right}'.format(x=rep.dest, code=Fore.GREEN, reset=Style.RESET_ALL)
         print('source ({rep.source.block.a},{rep.dest.block.a})'.format(**locals()).center(80,'-'))
         print(left)
         print('cible'.format(**locals()).center(80,'-'))
