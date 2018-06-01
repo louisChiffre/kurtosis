@@ -85,6 +85,9 @@ class Shell(cmd.Cmd):
         self.decrement_cursor()
         self.show_rep()
 
+    def do_exit(self,*args):
+               return True
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-f", "--filename", required=True,
