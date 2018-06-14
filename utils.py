@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import io
 from collections import namedtuple
 import xml.etree.ElementTree as ET
