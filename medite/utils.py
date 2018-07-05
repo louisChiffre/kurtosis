@@ -78,7 +78,7 @@ def prettify(elem):
     reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent="  ")
 
-def read_txt(filename, encoding='cp1252'):
+def read_txt(filename, encoding='utf-8'):
     with io.open(filename, 'r', encoding=encoding) as o:
         txt = o.read()
     return txt
