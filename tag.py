@@ -3,7 +3,7 @@ import cmd
 import argparse
 from os.path import exists
 from ansi import Fore, Style
-from  utils import get_replacements
+from  utils.utils import get_replacements
                          
 logo ='''                              
   /\/\   ___  __| (_) |_  ___  /__   \__ _  __ _  __ _  ___ _ __ 
