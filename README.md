@@ -16,7 +16,7 @@ python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.tx
 ```
 
 ## Compare Sequentially Texts
-Put texts that needs to be compared sequentially in a directory. Comparaison will be done sequentially based on lexical order on filenames ending with .txt
+Put texts that needs to be compared sequentially in a directory. Comparaison will be done based on lexical order on filenames ending with .txt
 ```
 python bulk-diff.py sample/Labelle --lg_pivot 8 --ratio 10 --seuil 80  
 ```
