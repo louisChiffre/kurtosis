@@ -14,7 +14,5 @@ def convert(source_filename, target_filename, source_encoding, target_encoding):
     with io.open(target_filename, 'w', encoding=target_encoding) as o:
         o.write(source)
 
-
-
 if __name__ == '__main__':
     convert()

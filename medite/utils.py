@@ -6,6 +6,7 @@ import itertools as it
 from collections import namedtuple
 from ansi import Fore, Style
 
+
 # from constantesDonnees
 FICHIER_INFO = 'Informations.xml'
 ## Balises ##

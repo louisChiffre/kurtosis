@@ -37,6 +37,7 @@ def run(source_filename, target_filename, lg_pivot, ratio, seuil, case_sensitive
     def f(field):
         click.echo('using {field}={value}'.format(field=field, value=parameters._asdict()[field]))
     [f(k) for k in parameters._fields]
+
     appli = md.DiffTexts(
         chaine1=txt1, chaine2=txt2,
         parameters=parameters)

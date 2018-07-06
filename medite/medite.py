@@ -23,6 +23,7 @@ DEFAULT_PARAMETERS = Parameters(
     algo='HIS'
 )
 
+
 class DiffTexts(object):
     def __init__(self, chaine1, chaine2, parameters):
         # verify we are not using unsupported parameters
