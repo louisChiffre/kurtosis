@@ -12,6 +12,16 @@ Parameters = namedtuple(
     'Parameters', 'lg_pivot ratio seuil car_mot case_sensitive sep_sensitive diacri_sensitive algo')
 Resources = namedtuple('Resources', 'source target')
 
+DEFAULT_PARAMETERS = Parameters(
+    lg_pivot=7,
+    ratio=15,
+    seuil=50,
+    car_mot=True,
+    case_sensitive=True,
+    sep_sensitive=True,
+    diacri_sensitive=True,
+    algo='HIS'
+)
 
 class DiffTexts(object):
     def __init__(self, chaine1, chaine2, parameters):

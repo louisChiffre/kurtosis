@@ -3,21 +3,22 @@ from os.path import dirname, join
 from medite import medite as md
 from medite import utils as ut
 
+default = md.DEFAULT_PARAMETERS
 
 @click.command()
 @click.argument('source_filename', type=click.Path(exists=True))
 @click.argument('target_filename', type=click.Path(exists=True))
-@click.option('--lg_pivot', default=7)
-@click.option('--ratio', default=15)
-@click.option('--seuil', default=50)
-@click.option('--case-sensitive/--no-case-sensitive', default=True)
-@click.option('--diacri-sensitive/--no-diacri-sensitive', default=True)
+@click.option('--lg_pivot', default=default.lg_pivot)
+@click.option('--ratio', default=default.ratio)
+@click.option('--seuil', default=default.seuil)
+@click.option('--case-sensitive/--no-case-sensitive', default=default.case_sensitive)
+@click.option('--diacri-sensitive/--no-diacri-sensitive', default=default.diacri_sensitive)
 @click.option('--output-xml', type=click.Path(exists=False), default='informations.xml')
 @click.option('--output-html', type=click.Path(exists=False), default='diff_table.html')
 def run(source_filename, target_filename, lg_pivot, ratio, seuil, case_sensitive, diacri_sensitive, output_xml, output_html):
-    algo = 'HIS'
-    sep_sensitive = True
-    car_mot = True
+    algo = default.algo
+    sep_sensitive = default.sep_sensitive
+    car_mot = default.car_mot
     assert dirname(source_filename) == dirname(target_filename),\
         "source filename [{source_filename}] and target filename [{target_filename}] are not in the same directory".format(**locals())
     base_dir = dirname(source_filename)
