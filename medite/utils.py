@@ -4,6 +4,7 @@ import io
 import textwrap as tw
 import itertools as it
 from collections import namedtuple
+from os.path import dirname, basename
 from ansi import Fore, Style
 
 
@@ -85,12 +86,13 @@ def read_txt(filename, encoding='utf-8'):
     return txt
 
 def make_informations(appli, source_filename, target_filename):
+    assert dirname(source_filename)==dirname(target_filename)
     result = appli.result
     parameters = appli.parameters
     root = ET.Element(B_ROOT)
     info = ET.SubElement(root, B_INFORMATIONS)
-    info.set(B_ETAT_SOURCE, source_filename)
-    info.set(B_ETAT_CIBLE,  target_filename)
+    info.set(B_ETAT_SOURCE, basename(source_filename))
+    info.set(B_ETAT_CIBLE,  basename(target_filename))
 
     info.set(B_PARAM_1, '%s' % parameters.lg_pivot)
     info.set(B_PARAM_2, '%s' % parameters.ratio)

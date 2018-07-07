@@ -46,12 +46,15 @@ def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensiti
             yield Comparison(source=source, target=target, output=make_output_filename(source, target))
 
     for comparison in comparison_iter():
-        click.echo('[{source}] will be compared to [{target}] and result stored in {output}'.format(**comparison._asdict()))
+        click.echo('[{source}] will be compared to [{target}] and result stored in [{output}]'.format(**comparison._asdict()))
+
+    def mk_path(filename):
+        return join(source_directory, filename)
 
     for comparison in comparison_iter():
         click.echo('processing [{source}] vs [{target}]'.format(**comparison._asdict()))
-        source_filename =join(source_directory, comparison.source)
-        target_filename=join(source_directory, comparison.target)
+        source_filename =mk_path(comparison.source)
+        target_filename=mk_path(comparison.target)
         txt1 = ut.read_txt(source_filename)
         txt2 = ut.read_txt(target_filename)
         appli = md.DiffTexts(
@@ -63,6 +66,7 @@ def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensiti
             target_filename=target_filename,
             info_filename=join(source_directory, comparison.output))
         ut.pretty_print(appli)
+        click.echo('result stored in [{output}]'.format(output=mk_path(comparison.output)))
 
 
 if __name__ == '__main__':
