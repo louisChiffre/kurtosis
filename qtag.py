@@ -1,15 +1,14 @@
-import sys
-import pandas as pd
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWebEngineWidgets import QWebEngineView
-from os.path import exists
-from ansi import Fore, Style
-from  utils.utils import get_replacements
 import click
+import sys
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from utils.utils import get_replacements
 
 Qt = QtCore.Qt
-COLS = ['id', 'source', 'dest', 'tag','left','right', 'diff']
-NUM2COLS = {k:i for i,k in enumerate(COLS)}
+COLS = ['id', 'source', 'dest', 'tag', 'diff']
+NUM2COLS = {k: i for i, k in enumerate(COLS)}
+
+
 class Model(QtCore.QAbstractTableModel):
     def __init__(self, tree, replacements, filename, parent=None):
         QtCore.QAbstractTableModel.__init__(self, parent)
@@ -20,16 +19,11 @@ class Model(QtCore.QAbstractTableModel):
         close = '</font>'
         self._data = [{
             'id': id,
-            'source':k.source.center, 
-            'dest':k.dest.center, 
-            'tag':k.source.block.node.get('tag'),
-            'left': u'<html><body style="font-family:Arial">{x.left}{color}{x.center}{close}{x.right}</body></html>'.format(x=k.source, color=color, close=close ),
-            'right':u'<html><body style"font-family:Arial">{x.left}{color}{x.center}{close}{x.right}</body></html>'.format(x=k.dest, color=color, close=close ),
-            'diff': u'<html><body><table><tr><td>{x.left}{color}{x.center}{close}{x.right}</td><td>{y.left}{color}{y.center}{close}{y.right}</td></tr></table></body></html>'.format(x=k.dest, y=k.dest, color=color, close=close )
-            } 
-
-            for 
-            id, k in enumerate(replacements)]
+            'source': k.source.center,
+            'dest': k.dest.center,
+            'tag': k.source.block.node.get('tag'),
+            'diff': u'<html><body><table><tr><td>{x.left}{color}{x.center}{close}{x.right}</td><td>{y.left}{color}{y.center}{close}{y.right}</td></tr></table></body></html>'.format(x=k.dest, y=k.dest, color=color, close=close)
+            } for id, k in enumerate(replacements)]
 
     def rowCount(self, parent=None):
         return len(self._data)
@@ -49,7 +43,7 @@ class Model(QtCore.QAbstractTableModel):
         return None
 
     def is_tag(self, index):
-        return COLS[index.column()]=='tag'
+        return COLS[index.column()] == 'tag'
 
     def flags(self, index):
         if not index.isValid():
@@ -63,8 +57,8 @@ class Model(QtCore.QAbstractTableModel):
     def setData(self, index, value, role):
         if not index.isValid():
             return False
-        if role ==QtCore.Qt.EditRole: 
-            self._data[index.row()][COLS[index.column()]]=value
+        if role == QtCore.Qt.EditRole:
+            self._data[index.row()][COLS[index.column()]] = value
             self.dataChanged.emit(index, index)
             self.replacements[index.row()].source.block.node.set('tag', value)
             return True
@@ -89,7 +83,7 @@ class TableView(QtWidgets.QTableView):
 @click.command()
 @click.argument('filename', type=click.Path(exists=True))
 def run(filename):
-    tree, replacements =  get_replacements(xml_filename=filename, encoding='utf8', window_size=128)
+    tree, replacements = get_replacements(xml_filename=filename, encoding='utf8', window_size=128)
     application = QtWidgets.QApplication(sys.argv)
     win = QtWidgets.QWidget()
     table_view = TableView()
@@ -103,16 +97,16 @@ def run(filename):
     table_view.setAlternatingRowColors(True)
     table_view.resizeColumnsToContents()
     table_view.horizontalHeader().setStretchLastSection(True)
-    table_view.setColumnHidden(NUM2COLS['id'],True)
-    table_view.setColumnHidden(NUM2COLS['left'],True)
-    table_view.setColumnHidden(NUM2COLS['right'],True)
-    table_view.setColumnHidden(NUM2COLS['diff'],True)
+    table_view.setColumnHidden(NUM2COLS['id'], True)
+    table_view.setColumnHidden(NUM2COLS['left'], True)
+    table_view.setColumnHidden(NUM2COLS['right'], True)
+    table_view.setColumnHidden(NUM2COLS['diff'], True)
 
     text_view = QWebEngineView()
     DIFF_COL = NUM2COLS['diff']
 
     def update_diff(item):
-        text_view.setHtml(item.model().index(item.row(),DIFF_COL).data())
+        text_view.setHtml(item.model().index(item.row(), DIFF_COL).data())
 
     table_view.clicked.connect(update_diff)
 
@@ -120,8 +114,8 @@ def run(filename):
     layout.addWidget(table_view)
     text_view.setFixedHeight(150)
     layout.addWidget(text_view)
-    layout.setContentsMargins(0, 0, 0, 0);
-    layout.setSpacing(0);
+    layout.setContentsMargins(0, 0, 0, 0)
+    layout.setSpacing(0)
     win.setLayout(layout)
     win.setWindowTitle('Medite Tagger')
     win.show()
