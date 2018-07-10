@@ -5,7 +5,7 @@ Collection of scripts related to [Variance]
 ## Tag Files
 example usage
 ```
-python tag.py --filename samples/LaBelle/Informations.xml
+python tag.py tests/Labelle/Informations.xml 
 ```
 
 ## Compare two texts

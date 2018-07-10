@@ -98,8 +98,6 @@ def run(filename):
     table_view.resizeColumnsToContents()
     table_view.horizontalHeader().setStretchLastSection(True)
     table_view.setColumnHidden(NUM2COLS['id'], True)
-    table_view.setColumnHidden(NUM2COLS['left'], True)
-    table_view.setColumnHidden(NUM2COLS['right'], True)
     table_view.setColumnHidden(NUM2COLS['diff'], True)
 
     text_view = QWebEngineView()
@@ -108,7 +106,7 @@ def run(filename):
     def update_diff(item):
         text_view.setHtml(item.model().index(item.row(), DIFF_COL).data())
 
-    table_view.clicked.connect(update_diff)
+    table_view.doubleClicked.connect(update_diff)
 
     layout = QtWidgets.QVBoxLayout()
     layout.addWidget(table_view)
@@ -118,6 +116,7 @@ def run(filename):
     layout.setSpacing(0)
     win.setLayout(layout)
     win.setWindowTitle('Medite Tagger')
+    win.setGeometry(100,100, 1600, 800)
     win.show()
 
     sys.exit(application.exec_())
