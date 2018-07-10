@@ -25,7 +25,7 @@ def read_xml(xml_filename):
     tree = ET.parse(xml_filename)
     return tree
 
-def get_replacements(xml_filename, encoding):
+def get_replacements(xml_filename, window_size, encoding):
     tree = read_xml(xml_filename)
     transformations = tree.find('./informations/transformations')
     root = tree.getroot()
@@ -43,11 +43,11 @@ def get_replacements(xml_filename, encoding):
     Fragment = namedtuple('Fragment', 'left center right block')
     def p(x):
         return x
-    def get_text(block, window=32):
+    def get_text(block):
         return Fragment(
-            left = p(txt[(block.a-window):block.a]),
+            left = p(txt[(block.a-window_size):block.a]),
             center = p(txt[block.a:block.b]),
-            right = p(txt[block.b:(block.b+window)]),
+            right = p(txt[block.b:(block.b+window_size)]),
             block = block)
 
     blocks = list(gen_blocks())
