@@ -1,20 +1,35 @@
 import sys
 import pandas as pd
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWebEngineWidgets import QWebEngineView
 from os.path import exists
 from ansi import Fore, Style
 from  utils.utils import get_replacements
 import click
 
 Qt = QtCore.Qt
-COLS = ['source', 'dest', 'tag', 'id']
+COLS = ['id', 'source', 'dest', 'tag','left','right', 'diff']
+NUM2COLS = {k:i for i,k in enumerate(COLS)}
 class Model(QtCore.QAbstractTableModel):
     def __init__(self, tree, replacements, filename, parent=None):
         QtCore.QAbstractTableModel.__init__(self, parent)
         self.replacements = replacements
         self.tree = tree
         self.filename = filename
-        self._data = [{'id': unicode(id), 'source':k.source.center, 'dest':k.dest.center, 'tag':k.source.block.node.get('tag')} for id, k in enumerate(replacements)]
+        color = '<font color="red">'
+        close = '</font>'
+        self._data = [{
+            'id': id,
+            'source':k.source.center, 
+            'dest':k.dest.center, 
+            'tag':k.source.block.node.get('tag'),
+            'left': u'<html><body style="font-family:Arial">{x.left}{color}{x.center}{close}{x.right}</body></html>'.format(x=k.source, color=color, close=close ),
+            'right':u'<html><body style"font-family:Arial">{x.left}{color}{x.center}{close}{x.right}</body></html>'.format(x=k.dest, color=color, close=close ),
+            'diff': u'<html><body><table><tr><td>{x.left}{color}{x.center}{close}{x.right}</td><td>{y.left}{color}{y.center}{close}{y.right}</td></tr></table></body></html>'.format(x=k.dest, y=k.dest, color=color, close=close )
+            } 
+
+            for 
+            id, k in enumerate(replacements)]
 
     def rowCount(self, parent=None):
         return len(self._data)
@@ -70,23 +85,47 @@ class TableView(QtWidgets.QTableView):
                 model.setData(index, value, QtCore.Qt.EditRole)
         model.save()
 
-def update(item):
-    pass
 
 @click.command()
 @click.argument('filename', type=click.Path(exists=True))
 def run(filename):
-    tree, replacements =  get_replacements(xml_filename=filename, encoding='utf8')
+    tree, replacements =  get_replacements(xml_filename=filename, encoding='utf8', window_size=128)
     application = QtWidgets.QApplication(sys.argv)
-    view = TableView()
+    win = QtWidgets.QWidget()
+    table_view = TableView()
     model = Model(tree, replacements, filename)
     proxyModel = QtCore.QSortFilterProxyModel()
     proxyModel.setSourceModel(model)
     proxyModel.save = model.save
-    view.setModel(proxyModel)
-    view.setSortingEnabled(True)
-    view.clicked.connect(update)
-    view.show()
+    proxyModel._data = model._data
+    table_view.setModel(proxyModel)
+    table_view.setSortingEnabled(True)
+    table_view.setAlternatingRowColors(True)
+    table_view.resizeColumnsToContents()
+    table_view.horizontalHeader().setStretchLastSection(True)
+    table_view.setColumnHidden(NUM2COLS['id'],True)
+    table_view.setColumnHidden(NUM2COLS['left'],True)
+    table_view.setColumnHidden(NUM2COLS['right'],True)
+    table_view.setColumnHidden(NUM2COLS['diff'],True)
+
+    text_view = QWebEngineView()
+    DIFF_COL = NUM2COLS['diff']
+
+    def update_diff(item):
+        text_view.setHtml(item.model().index(item.row(),DIFF_COL).data())
+
+    table_view.clicked.connect(update_diff)
+
+    layout = QtWidgets.QVBoxLayout()
+    layout.addWidget(table_view)
+    text_view.setFixedHeight(150)
+    layout.addWidget(text_view)
+    layout.setContentsMargins(0, 0, 0, 0);
+    layout.setSpacing(0);
+    win.setLayout(layout)
+    win.setWindowTitle('Medite Tagger')
+    win.show()
+
     sys.exit(application.exec_())
 
 
