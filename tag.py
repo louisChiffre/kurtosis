@@ -1,7 +1,7 @@
 import click
 import sys
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt4 import QtCore, QtGui
+from PyQt4.QtGui import QTextBrowser
 from utils.utils import get_replacements
 
 Qt = QtCore.Qt
@@ -60,7 +60,7 @@ class Model(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.EditRole:
             self._data[index.row()][COLS[index.column()]] = value
             self.dataChanged.emit(index, index)
-            self.replacements[index.row()].source.block.node.set('tag', value)
+            self.replacements[index.row()].source.block.node.set('tag', unicode(value.toString()))
             return True
         return False
 
@@ -69,7 +69,7 @@ class Model(QtCore.QAbstractTableModel):
 
 
 # override TableView to enable muliple cell editing
-class TableView(QtWidgets.QTableView):
+class TableView(QtGui.QTableView):
     def commitData(self, editor):
         super(TableView, self).commitData(editor)
         model = self.currentIndex().model()
@@ -84,11 +84,11 @@ class TableView(QtWidgets.QTableView):
 @click.argument('filename', type=click.Path(exists=True))
 def run(filename):
     tree, replacements = get_replacements(xml_filename=filename, encoding='utf8', window_size=128)
-    application = QtWidgets.QApplication(sys.argv)
-    win = QtWidgets.QWidget()
+    application = QtGui.QApplication(sys.argv)
+    win = QtGui.QWidget()
     table_view = TableView()
     model = Model(tree, replacements, filename)
-    proxyModel = QtCore.QSortFilterProxyModel()
+    proxyModel = QtGui.QSortFilterProxyModel()
     proxyModel.setSourceModel(model)
     proxyModel.save = model.save
     proxyModel._data = model._data
@@ -100,7 +100,7 @@ def run(filename):
     table_view.setColumnHidden(NUM2COLS['id'], True)
     table_view.setColumnHidden(NUM2COLS['diff'], True)
 
-    text_view = QWebEngineView()
+    text_view = QTextBrowser()
     DIFF_COL = NUM2COLS['diff']
 
     def update_diff(item):
@@ -108,7 +108,7 @@ def run(filename):
 
     table_view.doubleClicked.connect(update_diff)
 
-    layout = QtWidgets.QVBoxLayout()
+    layout = QtGui.QVBoxLayout()
     layout.addWidget(table_view)
     text_view.setFixedHeight(150)
     layout.addWidget(text_view)
