@@ -30,6 +30,8 @@ def get_replacements(xml_filename, window_size, encoding):
     transformations = tree.find('./informations/transformations')
     root = tree.getroot()
     informations = tree.find('./informations').attrib
+    print "xml_filename", xml_filename
+    print "using", informations
     txt_1 = read_txt(mk_path(xml_filename, informations['fsource']), encoding)
     txt_2 = read_txt(mk_path(xml_filename, informations['fcible']), encoding)
     txt = txt_1 + txt_2
