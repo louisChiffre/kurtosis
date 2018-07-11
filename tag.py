@@ -104,7 +104,7 @@ def run(filename):
     DIFF_COL = NUM2COLS['diff']
 
     def update_diff(item):
-        text_view.setHtml(item.model().index(item.row(), DIFF_COL).data())
+        text_view.setHtml(item.model().index(item.row(), DIFF_COL).data().toString())
 
     table_view.doubleClicked.connect(update_diff)
 
