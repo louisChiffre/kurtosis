@@ -4,7 +4,7 @@ import io
 import textwrap as tw
 import itertools as it
 from collections import namedtuple
-from os.path import dirname, basename
+from os.path import dirname, basename, splitext
 from ansi import Fore, Style
 
 
@@ -90,6 +90,9 @@ def make_informations(appli, source_filename, target_filename):
     result = appli.result
     parameters = appli.parameters
     root = ET.Element(B_ROOT)
+    arbre = ET.SubElement(root, B_ARBRE)
+    ET.SubElement(arbre, B_VERSION).set(B_ID, splitext(source_filename)[0])
+    ET.SubElement(arbre, B_VERSION).set(B_ID, splitext(target_filename)[0])
     info = ET.SubElement(root, B_INFORMATIONS)
     info.set(B_ETAT_SOURCE, basename(source_filename))
     info.set(B_ETAT_CIBLE,  basename(target_filename))
