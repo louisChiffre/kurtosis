@@ -152,9 +152,6 @@ def test_separator():
         diacri_sensitive=True,
         algo='HIS')
     
-    import textwrap as tw
-    import itertools as it
-
     def cases():
         yield Case(parameters=vanilla_parameters, 
             txt1=u'''Les poules du couvent couvent le samedi le vendredi le dimanche le jeudi aussi et mercredi bien sur''', 
