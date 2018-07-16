@@ -76,7 +76,7 @@ B_ID = "id"
 
 
 def prettify(elem):
-    rough_string = ET.tostring(elem, 'utf-8')
+    rough_string = ET.tostring(elem, encoding='utf-8')
     reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent="  ")
 
@@ -90,9 +90,23 @@ def make_informations(appli, source_filename, target_filename):
     result = appli.result
     parameters = appli.parameters
     root = ET.Element(B_ROOT)
+    # auteur
+    auteur = ET.SubElement(root, B_AUTEUR)
+    ET.SubElement(auteur, B_NOM).text = 'nom'
+    ET.SubElement(auteur, B_PRENOM).text = 'prenom'
+    ET.SubElement(auteur, B_NAISSANCE).text = '1700'
+    ET.SubElement(auteur, B_DECES).text = '1700'
+
+    oeuvre = ET.SubElement(root, B_OEUVRE)
+    ET.SubElement(oeuvre, B_TITRE).text = 'titre'
+    ET.SubElement(oeuvre, B_EDITION).text = 'edition'
+    ET.SubElement(oeuvre, B_PUBLICATION).text = '1700'
+
+    # arbre
     arbre = ET.SubElement(root, B_ARBRE)
     ET.SubElement(arbre, B_VERSION).set(B_ID, splitext(source_filename)[0])
     ET.SubElement(arbre, B_VERSION).set(B_ID, splitext(target_filename)[0])
+
     info = ET.SubElement(root, B_INFORMATIONS)
     info.set(B_ETAT_SOURCE, basename(source_filename))
     info.set(B_ETAT_CIBLE,  basename(target_filename))

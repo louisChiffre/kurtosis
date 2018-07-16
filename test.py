@@ -6,8 +6,14 @@ import pandas as pd
 from collections import namedtuple
 import xml.etree.ElementTree as ET
 from os.path import join, dirname, exists
-Block = namedtuple('Block', 'a b')
+import textwrap as tw
+import itertools as it
 
+def test_get_changes():
+    from utils import utils as ut
+    tree, changes = ut.get_changes('tests/Labelle/Informations.xml', encoding='utf-8', window_size=32)
+
+Block = namedtuple('Block', 'a b')
 
 def node2block(node, begin_attr='d', end_attr='f'):
     dic = node.attrib
@@ -21,10 +27,6 @@ def read_xml(xml_filename):
 
 def mk_path(xml_filename, filename):
     return join(dirname(xml_filename), filename)
-
-# def read_txt(filename, encoding='latin1'):
-
-
 
 
 Result = namedtuple('Result', 'ins sup remp bc bd lg')
