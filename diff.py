@@ -45,13 +45,14 @@ def run(source_filename, target_filename, lg_pivot, ratio, seuil, case_sensitive
         appli=appli,
         html_filename=join(base_dir, output_html))
     click.echo('html output written to {output_html}'.format(**locals()))
+    output_path = join(base_dir, output_xml)
     ut.make_xml_output(
         appli=appli,
         source_filename=source_filename,
         target_filename=target_filename,
-        info_filename=join(base_dir, output_xml))
-    click.echo('xml output written to {output_xml}'.format(**locals()))
+        info_filename=output_path)
     ut.pretty_print(appli)
+    click.echo('xml output written to {output_path}'.format(**locals()))
 
 
 if __name__ == '__main__':

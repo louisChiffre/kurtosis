@@ -102,14 +102,19 @@ def make_informations(appli, source_filename, target_filename):
     ET.SubElement(oeuvre, B_EDITION).text = 'edition'
     ET.SubElement(oeuvre, B_PUBLICATION).text = '1700'
 
+    def extract_root(filename):
+        return splitext(basename(filename))[0]
     # arbre
     arbre = ET.SubElement(root, B_ARBRE)
-    ET.SubElement(arbre, B_VERSION).set(B_ID, splitext(source_filename)[0])
-    ET.SubElement(arbre, B_VERSION).set(B_ID, splitext(target_filename)[0])
+    ET.SubElement(arbre, B_VERSION).set(B_ID, extract_root(source_filename))
+    ET.SubElement(arbre, B_VERSION).set(B_ID, extract_root(target_filename))
 
     info = ET.SubElement(root, B_INFORMATIONS)
     info.set(B_ETAT_SOURCE, basename(source_filename))
     info.set(B_ETAT_CIBLE,  basename(target_filename))
+
+    info.set(B_VERS_SOURCE, extract_root(source_filename))
+    info.set(B_VERS_CIBLE,  extract_root(target_filename))
 
     info.set(B_PARAM_1, '%s' % parameters.lg_pivot)
     info.set(B_PARAM_2, '%s' % parameters.ratio)
@@ -161,10 +166,10 @@ def make_informations(appli, source_filename, target_filename):
     blocsDeplaces = ET.SubElement(transfo, B_BLOCSDEPLACES)
     for (b1deb, b1fin), (b2deb, b2fin) in result.getPairesBlocsDeplaces():
         node = ET.SubElement(blocsDeplaces, B_DEP)
-        node.set(B1_D, str(b1deb))
         node.set(B1_F, str(b1fin))
-        node.set(B2_D, str(b2deb))
         node.set(B2_F, str(b2fin))
+        node.set(B1_D, str(b1deb))
+        node.set(B2_D, str(b2deb))
     return prettify(root)
 
 
