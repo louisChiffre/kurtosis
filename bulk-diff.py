@@ -1,4 +1,5 @@
 import click
+from collections import namedtuple 
 from os.path import dirname, join
 from os import listdir
 from medite import medite as md
@@ -14,7 +15,8 @@ default = md.DEFAULT_PARAMETERS
 @click.option('--case-sensitive/--no-case-sensitive', default=default.case_sensitive)
 @click.option('--diacri-sensitive/--no-diacri-sensitive', default=default.diacri_sensitive)
 @click.option('--output-xml-suffix', type=click.Path(exists=False), default='.xml')
-def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensitive, output_xml_suffix):
+@click.option('--author', default='first name,last name, birth year, death year')
+def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensitive, output_xml_suffix, author):
     algo = default.algo
     sep_sensitive = default.sep_sensitive
     car_mot = default.car_mot
@@ -33,7 +35,6 @@ def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensiti
         click.echo('using {field}={value}'.format(field=field, value=parameters._asdict()[field]))
     [f(k) for k in parameters._fields]
     
-    from collections import namedtuple 
     Comparison = namedtuple('Comparison', 'source target output')
 
     def make_output_filename(source, target):
@@ -64,7 +65,8 @@ def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensiti
             appli=appli,
             source_filename=source_filename,
             target_filename=target_filename,
-            info_filename=join(source_directory, comparison.output))
+            info_filename=join(source_directory, comparison.output),
+            author=author)
         ut.pretty_print(appli)
         click.echo('result stored in [{output}]'.format(output=mk_path(comparison.output)))
 

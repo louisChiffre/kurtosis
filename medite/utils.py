@@ -85,17 +85,22 @@ def read_txt(filename, encoding='utf-8'):
         txt = o.read()
     return txt
 
-def make_informations(appli, source_filename, target_filename):
+def make_informations(appli, source_filename, target_filename, author):
     assert dirname(source_filename)==dirname(target_filename)
     result = appli.result
     parameters = appli.parameters
     root = ET.Element(B_ROOT)
-    # auteur
+
+    # author
     auteur = ET.SubElement(root, B_AUTEUR)
-    ET.SubElement(auteur, B_NOM).text = 'nom'
-    ET.SubElement(auteur, B_PRENOM).text = 'prenom'
-    ET.SubElement(auteur, B_NAISSANCE).text = '1700'
-    ET.SubElement(auteur, B_DECES).text = '1700'
+    author_information = [k.strip() for k in author.split(',')]
+    assert len(author_information)==4, "Author string should be comma separated and have 4 elements"
+    first_name, last_name, birth_year, death_year = author_information
+
+    ET.SubElement(auteur, B_PRENOM).text = first_name
+    ET.SubElement(auteur, B_NOM).text = last_name
+    ET.SubElement(auteur, B_NAISSANCE).text = birth_year
+    ET.SubElement(auteur, B_DECES).text = death_year
 
     oeuvre = ET.SubElement(root, B_OEUVRE)
     ET.SubElement(oeuvre, B_TITRE).text = 'titre'
@@ -180,9 +185,9 @@ def make_html_output(appli, html_filename):
             **locals())
         o.write(html)
 
-def make_xml_output(appli, source_filename, target_filename, info_filename):
+def make_xml_output(appli, source_filename, target_filename, info_filename, author=None):
     info = make_informations(
-        appli=appli, source_filename=source_filename, target_filename=target_filename)
+        appli=appli, source_filename=source_filename, target_filename=target_filename, author=author)
     with io.open(info_filename, 'w', encoding='utf8') as o:
         o.write(info)
 

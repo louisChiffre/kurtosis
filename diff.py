@@ -15,7 +15,8 @@ default = md.DEFAULT_PARAMETERS
 @click.option('--diacri-sensitive/--no-diacri-sensitive', default=default.diacri_sensitive)
 @click.option('--output-xml', type=click.Path(exists=False), default='informations.xml')
 @click.option('--output-html', type=click.Path(exists=False), default='diff_table.html')
-def run(source_filename, target_filename, lg_pivot, ratio, seuil, case_sensitive, diacri_sensitive, output_xml, output_html):
+@click.option('--author', default='first name,last name, birth year, death year')
+def run(source_filename, target_filename, lg_pivot, ratio, seuil, case_sensitive, diacri_sensitive, output_xml, output_html, author):
     algo = default.algo
     sep_sensitive = default.sep_sensitive
     car_mot = default.car_mot
@@ -50,7 +51,8 @@ def run(source_filename, target_filename, lg_pivot, ratio, seuil, case_sensitive
         appli=appli,
         source_filename=source_filename,
         target_filename=target_filename,
-        info_filename=output_path)
+        info_filename=output_path,
+        author=author)
     ut.pretty_print(appli)
     click.echo('xml output written to {output_path}'.format(**locals()))
 
