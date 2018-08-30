@@ -85,7 +85,7 @@ def read_txt(filename, encoding='utf-8'):
         txt = o.read()
     return txt
 
-def make_informations(appli, source_filename, target_filename, author):
+def make_informations(appli, source_filename, target_filename, author, title):
     assert dirname(source_filename)==dirname(target_filename)
     result = appli.result
     parameters = appli.parameters
@@ -102,10 +102,12 @@ def make_informations(appli, source_filename, target_filename, author):
     ET.SubElement(auteur, B_NAISSANCE).text = birth_year
     ET.SubElement(auteur, B_DECES).text = death_year
 
+    # work
     oeuvre = ET.SubElement(root, B_OEUVRE)
-    ET.SubElement(oeuvre, B_TITRE).text = 'titre'
+    
+    ET.SubElement(oeuvre, B_TITRE).text = title
     ET.SubElement(oeuvre, B_EDITION).text = 'edition'
-    ET.SubElement(oeuvre, B_PUBLICATION).text = '1700'
+    ET.SubElement(oeuvre, B_PUBLICATION).text = 'year'
 
     def extract_root(filename):
         return splitext(basename(filename))[0]
@@ -185,9 +187,9 @@ def make_html_output(appli, html_filename):
             **locals())
         o.write(html)
 
-def make_xml_output(appli, source_filename, target_filename, info_filename, author=None):
+def make_xml_output(appli, source_filename, target_filename, info_filename, author=None, title=None):
     info = make_informations(
-        appli=appli, source_filename=source_filename, target_filename=target_filename, author=author)
+        appli=appli, source_filename=source_filename, target_filename=target_filename, author=author, title=title)
     with io.open(info_filename, 'w', encoding='utf8') as o:
         o.write(info)
 

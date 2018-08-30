@@ -16,7 +16,8 @@ default = md.DEFAULT_PARAMETERS
 @click.option('--diacri-sensitive/--no-diacri-sensitive', default=default.diacri_sensitive)
 @click.option('--output-xml-suffix', type=click.Path(exists=False), default='.xml')
 @click.option('--author', default='first name,last name, birth year, death year')
-def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensitive, output_xml_suffix, author):
+@click.option('--title', default='title')
+def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensitive, output_xml_suffix, author, title):
     algo = default.algo
     sep_sensitive = default.sep_sensitive
     car_mot = default.car_mot
@@ -66,7 +67,8 @@ def run(source_directory, lg_pivot, ratio, seuil, case_sensitive, diacri_sensiti
             source_filename=source_filename,
             target_filename=target_filename,
             info_filename=join(source_directory, comparison.output),
-            author=author)
+            author=author,
+            title=title)
         ut.pretty_print(appli)
         click.echo('result stored in [{output}]'.format(output=mk_path(comparison.output)))
 
