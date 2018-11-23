@@ -8,6 +8,7 @@ Block = namedtuple('Block', 'a b node')
 REPLACEMENT = 'REPLACEMENT'
 INSERTION = 'INSERTION'
 DELETION = 'DELETION'
+MOVE = 'MOVE'
 
 
 def node2block(node, begin_attr='d', end_attr='f'):
@@ -43,8 +44,12 @@ def get_changes(xml_filename, window_size, encoding):
 
     def gen_blocks(block_type):
         for replacement in transformations.findall(block_type):
-            block = node2block(replacement)
-            yield block
+            if block_type == './blocsdeplaces/bd':
+                yield node2block(replacement, begin_attr='b1d', end_attr='b1f')
+                yield node2block(replacement, begin_attr='b2d', end_attr='b2f')
+            else:
+                block = node2block(replacement)
+                yield block
 
     Fragment = namedtuple('Fragment', 'left center right block')
 
@@ -73,5 +78,9 @@ def get_changes(xml_filename, window_size, encoding):
 
     insertions = [Change(INSERTION, empty_fragment, get_fragment(b)) for b in gen_blocks(block_type='./insertions/ins')]
     deletions = [Change(DELETION, get_fragment(b), empty_fragment) for b in gen_blocks(block_type='./suppressions/sup')]
+    moves_ = [k for k in gen_blocks(block_type='./blocsdeplaces/bd')]
+    moves = [ Change(MOVE, get_fragment(a), get_fragment(b)) for a,b in zip(*[iter(moves_)]*2)]
 
-    return tree, replacements + insertions + deletions
+
+    Changes = namedtuple('Changes', 'tree changes')
+    return Changes(tree, replacements + insertions + deletions + moves)
