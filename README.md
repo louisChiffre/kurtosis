@@ -1,6 +1,6 @@
 # kurtosis
 
-Collection of scripts related to [Variance]
+This repository contains a collection of scripts used for [Variance](http://variance.ch/). Please find install instructions [here](install_instructions.md)
 
 ## Tag Files
 example usage
