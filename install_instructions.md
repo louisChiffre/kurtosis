@@ -25,7 +25,7 @@ $ cd kurtosis
 
 To simplify install of external packages, setup conda on your machine. 
 
-First follow instructions here https://conda.io/docs/user-guide/install/macos.html
+First follow instructions here https://conda.io/projects/conda/en/latest/user-guide/install/macos.html#install-macos-silent
 
 Then create a python 2.7 environment named medite.
 ```
