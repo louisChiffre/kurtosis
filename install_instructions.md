@@ -84,7 +84,7 @@ $ conda activate medite
 
 Install pandas, qt and click python libaries.
 ```
-$ conda install -c anaconda pyqt=4.11.4 click pandas
+$ conda install -c anaconda click pandas
 Solving environment: done
 
 ## Package Plan ##
