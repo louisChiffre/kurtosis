@@ -15,6 +15,7 @@ python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.tx
 python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.txt --lg_pivot 8 --ratio 10 --seuil 80 
 python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.txt --lg_pivot 8 --ratio 10 --seuil 80 --author "Charles, Perrault, 1628, 1703"
 python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.txt --lg_pivot 8 --ratio 10 --seuil 80 --author "Charles, Perrault, 1628, 1703" --title "La Belle au bois dormant"
+python diff.py tests/BdS/BdS1835edition.txt tests/BdS/BdS_1842edition.txt
 ```
 
 ## Compare Sequentially Texts
