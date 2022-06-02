@@ -40,13 +40,13 @@ def run(source_filename, target_filename, lg_pivot, ratio, seuil, case_sensitive
         click.echo('using {field}={value}'.format(field=field, value=parameters._asdict()[field]))
     [f(k) for k in parameters._fields]
 
+    click.echo('calculating differences'.format(**locals()))
     appli = md.DiffTexts(
         chaine1=txt1, chaine2=txt2,
         parameters=parameters)
     ut.make_html_output(
         appli=appli,
         html_filename=join(base_dir, output_html))
-    click.echo('html output written to {output_html}'.format(**locals()))
     output_path = join(base_dir, output_xml)
     ut.make_xml_output(
         appli=appli,
@@ -57,6 +57,8 @@ def run(source_filename, target_filename, lg_pivot, ratio, seuil, case_sensitive
         title=title)
     ut.pretty_print(appli)
     click.echo('xml output written to {output_path}'.format(**locals()))
+    click.echo('html output written to {output_html}'.format(**locals()))
+    ut.make_javascript_output(appli, base_dir=base_dir)
 
 
 if __name__ == '__main__':
