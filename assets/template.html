@@ -87,6 +87,7 @@
      * To initialize the Editor, create a new instance with configuration object
      * @see docs/installation.md for mode details
      */
+    /*
     if(localStorage.getItem('blocks_1')) {
         console.log('loading block_1')
         blocks_1 = JSON.parse(localStorage.getItem('blocks_1'));
@@ -100,9 +101,10 @@
         blocks_2 = JSON.parse(localStorage.getItem('blocks_2'));
 
     }
+    */
 
     var editor = new EditorJS({
-      readOnly: false,
+      readOnly: true,
       holder: 'editorjs',
       inlineToolbar: ['link', 'marker', 'bold', 'italic'],
       tools: {
@@ -129,7 +131,7 @@
       }
     });
     var editor2 = new EditorJS({
-      readOnly: false,
+      readOnly: true,
       holder: 'editorjs2',
       tools: {
         fragment: { class: Fragment, },

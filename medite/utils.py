@@ -292,6 +292,11 @@ def make_javascript_output(appli, base_dir):
         blocks =[make_block(k) for k in (u"".join(gen())).split('\n')]
         return json.dumps(blocks, ensure_ascii=False)
 
+    table = make_table(gen_pairs())
+    csv_filename = join(base_dir, 'csv_output.csv') 
+    print('saving to {csv_filename}'.format(**locals()))
+    table.to_csv(csv_filename, encoding='utf-8')
+
     tables = make_tables(gen_pairs())
 
     txt1 = make_text('a')
@@ -317,7 +322,6 @@ def make_javascript_output(appli, base_dir):
             yield '</table>'
         z = '\n'.join(gen())
         return json.dumps(z, ensure_ascii=False)
-        #return json.dumps(df.to_html(index=False, border=0), ensure_ascii=False)
 
     replacements_txt = make_table_html(tables['Replacement'][['a','b','id']].sort_values('a'))
     tpl =u'''
@@ -351,11 +355,22 @@ var replacements_txt = {replacements_txt};
         shutil.rmtree(target_assets_directory) 
     shutil.copytree(dynamic_assets_directory, target_assets_directory)
 
-    for key, df in tables.items():
-        csv_filename = join(base_dir, key + '.csv') 
-        print('saving {key} to {csv_filename}'.format(**locals()))
-        df.to_csv(csv_filename, encoding='utf-8')
-
+def make_table(pair_generator):
+    pairs = list(pair_generator)
+    def gen():
+        for pair in pairs:
+            typ = pair.a.type if pair.a.type else pair.b.type
+            yield  {
+                'type':typ,
+                'context_a':"".join(pair.a.context),
+                'a':pair.a.txt,
+                'b':pair.b.txt,
+                'context_b':"".join(pair.b.context),
+                'b_type':pair.b.type,
+                'id': pair.id,
+            }
+    df = pd.DataFrame(gen())[['id','type','context_a','a', 'b', 'context_b']]
+    return df
 
 def make_tables(pairs_generator):
     # let's construct the lookup tables 
@@ -366,9 +381,9 @@ def make_tables(pairs_generator):
 
     def replacement_func(pair):
         return {
+            'context_a':"".join(pair.a.context),
             'a':pair.a.txt,
             'b':pair.b.txt,
-            'context_a':"".join(pair.a.context),
             'context_b':"".join(pair.b.context),
             'id': pair.id,
         }
