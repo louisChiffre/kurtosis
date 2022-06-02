@@ -390,3 +390,8 @@ grid-column: 1 / span 2 ;
 .R { background-color: #33ccff; padding: 0px; }  /* ffd0ff */
 .D { background-color: #999999; color: white; padding: 0px; }  /* ffd0ff */
 
+.scrolling_div
+{
+    height: 300px;
+    overflow: auto;
+}

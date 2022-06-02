@@ -1,3 +1,4 @@
+import pandas as pd
 import shutil
 import json
 import xml.etree.ElementTree as ET
@@ -291,12 +292,38 @@ def make_javascript_output(appli, base_dir):
         blocks =[make_block(k) for k in (u"".join(gen())).split('\n')]
         return json.dumps(blocks, ensure_ascii=False)
 
+    tables = make_tables(gen_pairs())
 
     txt1 = make_text('a')
     txt2 = make_text('b')
+    def make_table_html(df):
+        assert 'id' in list(df.columns)
+        def gen():
+            yield '<table >'
+            yield '<thead>'
+            for col in df.columns:
+                if not col =='id':
+                    yield '<th>' + col +'</th>'
+            yield '</thead>'
+            yield '<tbody>'
+            for _, row in df.iterrows():
+                yield '  <tr id="frag_{row.id}" onclick="scroll_this(this)">'.format(**locals())
+                for k,v in row.iteritems():
+                    if not k =='id':
+                        yield '    <td>' + v +'</td>'
+                yield '  </tr>'
+
+            yield '</tbody>'
+            yield '</table>'
+        z = '\n'.join(gen())
+        return json.dumps(z, ensure_ascii=False)
+        #return json.dumps(df.to_html(index=False, border=0), ensure_ascii=False)
+
+    replacements_txt = make_table_html(tables['Replacement'][['a','b','id']].sort_values('a'))
     tpl =u'''
 var blocks_1 = {txt1};
 var blocks_2 = {txt2};
+var replacements_txt = {replacements_txt};
 '''
     txt = tpl.format(**locals())
     # this is the javascript
@@ -324,10 +351,16 @@ var blocks_2 = {txt2};
         shutil.rmtree(target_assets_directory) 
     shutil.copytree(dynamic_assets_directory, target_assets_directory)
 
+    for key, df in tables.items():
+        csv_filename = join(base_dir, key + '.csv') 
+        print('saving {key} to {csv_filename}'.format(**locals()))
+        df.to_csv(csv_filename, encoding='utf-8')
 
+
+def make_tables(pairs_generator):
     # let's construct the lookup tables 
     D = defaultdict(list)
-    [D[(k.a.type,k.b.type)].append(k) for k in gen_pairs()]
+    [D[(k.a.type,k.b.type)].append(k) for k in pairs_generator]
     def deletion_func(z):
         return {}
 
@@ -337,6 +370,7 @@ var blocks_2 = {txt2};
             'b':pair.b.txt,
             'context_a':"".join(pair.a.context),
             'context_b':"".join(pair.b.context),
+            'id': pair.id,
         }
 
     def insertion_func(z):
@@ -356,7 +390,6 @@ var blocks_2 = {txt2};
         #('', 'I'): 'Insertion',
     }
 
-    import pandas as pd
     def gen_tables():
         for group in groups:
             def gen():
@@ -367,10 +400,7 @@ var blocks_2 = {txt2};
             yield (group.name, pd.DataFrame(x))
     
     tables = dict(gen_tables())
-    for key, df in tables.items():
-        csv_filename = join(base_dir, key + '.csv') 
-        print('saving {key} to {csv_filename}'.format(**locals()))
-        df.to_csv(csv_filename, encoding='utf-8')
+    return tables
 
 
 

@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Medite 😎😊</title>
+
  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
   <link href="assets/demo.css" rel="stylesheet">
@@ -23,15 +24,15 @@
     <div class="changes" id="changes">
 <div id="tabs">
   <ul>
-    <li><a href="#Replacement">Nunc tincidunt</a></li>
-    <li><a href="#Change">Proin dolor</a></li>
-    <li><a href="#tabs-3">Aenean lacinia</a></li>
+    <li><a href="#replacements">Replacements</a></li>
+    <li><a href="#insertions">Insertions</a></li>
+    <li><a href="#deletions">Deletions</a></li>
   </ul>
-  <div id="Replacement">
-    <p>Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. Aenean tempor ullamcorper leo. Vivamus sed magna quis ligula eleifend adipiscing. Duis orci. Aliquam sodales tortor vitae ipsum. Aliquam nulla. Duis aliquam molestie erat. Ut et mauris vel pede varius sollicitudin. Sed ut dolor nec orci tincidunt interdum. Phasellus ipsum. Nunc tristique tempus lectus.</p>
+  <div class="scrolling_div" id="replacements">
   </div>
-  <div id="Change">
-    <p>asdfaf</p>
+  <div class="scrolling_div" id="insertions">
+  </div>
+  <div class="scrolling_div" id="deletions">
   </div>
 
 </div>
@@ -77,9 +78,11 @@
 </style>
 
   <script>
-    $( function() {
-    $( "#tabs" ).tabs();
-  } );
+    $( function() { 
+        $( "#tabs" ).tabs(); 
+        $( "#replacements" ).append(replacements_txt); 
+    } 
+    );
     /**
      * To initialize the Editor, create a new instance with configuration object
      * @see docs/installation.md for mode details
@@ -150,26 +153,14 @@
 function scroll_this(el)
 {
     $("span[id='"+el.id+"']").each(function(i, el) { el.scrollIntoView(
-{behavior: "smooth", block: "center", inline: "nearest"}
-
+        {behavior: "smooth", block: "center", inline: "nearest"}
     )})
     var s = 500 
-    $("span[id='"+el.id+"']").each(function(i, el) { $(el).fadeOut(s).fadeIn(s).fadeOut(s).fadeIn(s) 
-
-
+    $("span[id='"+el.id+"']").each(function(i, el) { 
+        $(el).fadeOut(s).fadeIn(s).fadeOut(s).fadeIn(s) 
     })
 }
-/*
-$("head").append('
-<style>
-.ce-paragraph { line-height: 1.6em; outline: none; font-style: italic; } </style>
-');
-*/
 $("head").append('<style>.ce-paragraph { line-height: 1.6em; outline: none; font-style: italic; }</style>');
-/*
-var elem= document.getElementById('bla')
-elem.scrollIntoView()
-*/
   //we wait before doing anything
   Promise.all([editor.isReady, editor2.isReady]).then(function() {
     console.log('editor 1 and 2 are ready');
