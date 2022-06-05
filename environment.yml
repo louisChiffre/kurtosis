@@ -1,4 +1,4 @@
-name: medite
+name: medite_test
 channels:
   - anaconda
   - defaults
