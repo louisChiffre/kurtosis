@@ -1,0 +1,54 @@
+name: medite
+channels:
+  - anaconda
+  - defaults
+dependencies:
+  - appnope=0.1.0=py27hb466136_0
+  - backports=1.1=pyhd3eb1b0_0
+  - backports.shutil_get_terminal_size=1.0.0=pyhd3eb1b0_3
+  - blas=1.0=mkl
+  - ca-certificates=2021.10.26=hecd8cb5_2
+  - certifi=2020.6.20=pyhd3eb1b0_3
+  - click=7.1.2=py_0
+  - decorator=5.1.0=pyhd3eb1b0_0
+  - enum34=1.1.6=py27_1
+  - intel-openmp=2020.2=258
+  - ipython=5.8.0=py27_0
+  - ipython_genutils=0.2.0=pyhd3eb1b0_1
+  - libcxx=12.0.0=h2f01273_0
+  - libffi=3.3=hb1e8313_2
+  - libgfortran=3.0.1=h93005f0_2
+  - mkl=2019.4=233
+  - mkl-service=2.3.0=py27hfbe908c_0
+  - mkl_fft=1.0.15=py27h5e564d8_0
+  - mkl_random=1.1.0=py27ha771720_0
+  - ncurses=6.3=hca72f7f_2
+  - nltk=3.4.5=py27_0
+  - numpy=1.16.6=py27h81c90fd_0
+  - numpy-base=1.16.6=py27h6575580_0
+  - pandas=0.24.2=py27h0a44026_0
+  - pathlib2=2.3.5=py27_0
+  - pexpect=4.8.0=pyhd3eb1b0_3
+  - pickleshare=0.7.5=py27_0
+  - pip=19.3.1=py27_0
+  - prompt_toolkit=1.0.15=py27h4a7b9c2_0
+  - ptyprocess=0.7.0=pyhd3eb1b0_2
+  - pygments=2.5.2=py_0
+  - python=2.7.18=h47d645e_1
+  - python-dateutil=2.8.1=py_0
+  - pytz=2020.1=py_0
+  - readline=8.1.2=hca72f7f_1
+  - scandir=1.10.0=pyh5d7bf9c_3
+  - setuptools=44.0.0=py27_0
+  - simplegeneric=0.8.1=py27_2
+  - singledispatch=3.7.0=pyhd3eb1b0_1001
+  - six=1.15.0=py_0
+  - sqlite=3.37.0=h707629a_0
+  - tk=8.6.11=h7bc2e8c_0
+  - traitlets=4.3.3=py27_0
+  - wcwidth=0.2.5=pyhd3eb1b0_0
+  - wheel=0.37.1=pyhd3eb1b0_0
+  - zlib=1.2.11=h4dc903c_4
+  - pip:
+    - future-breakpoint==1.2.1
+prefix: /Users/laurentmauron/miniconda3/envs/medite
