@@ -324,10 +324,14 @@ def make_javascript_output(appli, base_dir):
         return json.dumps(z, ensure_ascii=False)
 
     replacements_txt = make_table_html(tables['Replacement'][['a','b','id']].sort_values('a'))
+    deletions_txt = make_table_html(tables['Deletion'][['a','id']])
+    insertions_txt = make_table_html(tables['Insertion'][['b','id']])
     tpl =u'''
 var blocks_1 = {txt1};
 var blocks_2 = {txt2};
 var replacements_txt = {replacements_txt};
+var deletions_txt = {deletions_txt};
+var insertions_txt = {insertions_txt};
 '''
     txt = tpl.format(**locals())
     # this is the javascript
@@ -387,22 +391,34 @@ def make_tables(pairs_generator):
             'context_b':"".join(pair.b.context),
             'id': pair.id,
         }
+    def deletion_func(pair):
+        return {
+            'context_a':"".join(pair.a.context),
+            'a':pair.a.txt,
+            'id': pair.id,
+        }
+    def insertion_func(pair):
+        return {
+            'context_b':"".join(pair.a.context),
+            'b':pair.b.txt,
+            'id': pair.id,
+        }
 
-    def insertion_func(z):
-        breakpoint()
     Group = namedtuple('Group','key name row_func')
     groups = {
         Group( key =('R', 'R'), name ='Replacement', row_func=replacement_func),
+        Group( key =('S', ''), name ='Deletion', row_func=deletion_func),
+        Group( key =('', 'I'), name ='Insertion', row_func=insertion_func),
 
 
     }
     k2type = {
-        #('S', '') : 'Deletion',
+        ('S', '') : 'Deletion',
         ('R', 'R'): 'Replacement',
         #('BC', 'BC'), 
         #('', 'D'), 
         #('D', ''), 
-        #('', 'I'): 'Insertion',
+        ('', 'I'): 'Insertion',
     }
 
     def gen_tables():
