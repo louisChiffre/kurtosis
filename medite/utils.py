@@ -196,11 +196,14 @@ def make_xml_output(appli, source_filename, target_filename, info_filename, auth
     with io.open(info_filename, 'w', encoding='utf8') as o:
         o.write(info)
 
+# we link to nltka data that were installed manually using
+# python -m nltk.downloader -d Users/laurentmauron/nltk_data all
+# and added to the github repo
+os.environ['NLTK_DATA'] = os.path.join(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'assets'),'nltk_data')
 from nltk.tokenize.punkt import PunktSentenceTokenizer
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.data import load
 from nltk.tokenize import sent_tokenize, word_tokenize
-# python -m nltk.downloader -d Users/laurentmauron/nltk_data all
 
 def gen_token(txt):
     language = 'french'
