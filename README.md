@@ -14,10 +14,13 @@ Example usage
 python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.txt
 ```
 The following files will be created in the foder ```tests/Labelle```
-|file name|description|
-|```diff_table.html```|html differences table|
-|```diff_table_improved.html```|improved html differences table (work in progress)|
-|```csv_output.csv```|csv formatted difference tables|
+
+| Filename  | Description |
+| ------------- | ------------- |
+| ```diff_table.html```  | html differences table  |
+| ```diff_table_improved.html``` | improved html differences table (work in progress)  |
+| ```csv_output.csv``` | csv formatted difference tables  |
+
 
 Other example usages:
 ```
