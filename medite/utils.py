@@ -235,8 +235,8 @@ def make_sentence_lookup(txt):
     for k, start_end in enumerate(tokens):
         start, end = start_end
         sentence =txt[start:end]
-        print(str(k).center(80,'*'))
-        print(sentence)
+        #print(str(k).center(80,'*'))
+        #print(sentence)
         sentences.append(sentence) 
         for i in range(start+1,end+1):
             c2s[i] = k
@@ -348,7 +348,7 @@ var insertions_txt = {insertions_txt};
 
     # copying base template
     template_filename = join(assets_directory ,'template.html')
-    html_filename = join(base_dir,'index_dynamic.html')
+    html_filename = join(base_dir,'diff_table_improved.html')
     print('copying {template_filename} to {html_filename}'.format(**locals()))
     shutil.copyfile(template_filename, html_filename)
 
@@ -455,7 +455,6 @@ import functools
 Fragment=namedtuple('fragment', 'type txt context')
 def pretty_print(appli):
     sentence_lookup = make_sentence_lookup(appli.bbl.texte) 
-
     W=40
     f = functools.partial(block2fragment, appli, sentence_lookup)
     template = u'{la:<4}|{lcode}{ta:<__W__}{reset}|{rcode}{tb:<__W__}{reset}|{lb:>4}'.replace('__W__', str(W))

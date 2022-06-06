@@ -9,9 +9,18 @@ python tag.py tests/Labelle/Informations.xml
 ```
 
 ## Compare two texts
-example usage
+Example usage
 ```
 python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.txt
+```
+The following files will be created in the foder ```tests/Labelle```
+|file name|description|
+|```diff_table.html```|html differences table|
+|```diff_table_improved.html```|improved html differences table (work in progress)|
+|```csv_output.csv```|csv formatted difference tables|
+
+Other example usages:
+```
 python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.txt --lg_pivot 8 --ratio 10 --seuil 80 
 python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.txt --lg_pivot 8 --ratio 10 --seuil 80 --author "Charles, Perrault, 1628, 1703"
 python diff.py tests/Labelle/01LaBelle_Ms.txt tests/Labelle/02LaBelle_Mercure.txt --lg_pivot 8 --ratio 10 --seuil 80 --author "Charles, Perrault, 1628, 1703" --title "La Belle au bois dormant"
